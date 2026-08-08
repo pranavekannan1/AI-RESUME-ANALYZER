@@ -1,43 +1,37 @@
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes.analyze import router as analyze_router
-from app.api.routes.health import router as health_router
-from app.api.routes.upload import router as upload_router
 from core.config import settings
-from core.logger import logger
-from database.database import close_db, init_db
-
+from database.database import init_db, close_db
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
-    logger.info("AI Resume Analyzer MongoDB initialized.")
     yield
     close_db()
-    logger.info("AI Resume Analyzer shutting down.")
 
 
 app = FastAPI(
-    title=settings.APP_NAME,
-    version=settings.APP_VERSION,
-    description="AI Resume Analyzer Backend",
+    title="AI Resume Analyzer",
     lifespan=lifespan,
 )
 
+cors_origins = [
+    origin.strip()
+    for origin in settings.CORS_ORIGINS.split(",")
+    if origin.strip()
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.cors_origins_list,
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-app.include_router(health_router)
-app.include_router(upload_router)
-app.include_router(analyze_router)
 
 
 @app.get("/")
@@ -47,3 +41,8 @@ def root():
         "docs": "/docs",
         "health": "/health/",
     }
+
+
+@app.get("/health/")
+def health():
+    return {"status": "healthy"}
