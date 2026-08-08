@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: #07111a;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at 80% 6%, rgba(39, 211, 148, 0.10), transparent 24%),
+    radial-gradient(circle at 15% 4%, rgba(37, 99, 235, 0.16), transparent 18%),
+    #07111a;
+  color: #e5eef6;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
+
+body::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: -30%;
+  background-image:
+    radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-position: 0 0, 18px 18px;
+  background-size: 38px 38px, 38px 38px;
+  opacity: 0.55;
+  mask-image: linear-gradient(rgba(0,0,0,0.7), transparent);
+}
+
+button,
+label,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font-family: inherit;
+}
+
+::selection {
+  background: rgba(45, 212, 191, 0.35);
+}
