@@ -1,4 +1,5 @@
 # AI Resume Analyzer
+# AI-RESUME-ANALYZER
 
 Full-stack resume analyzer using Next.js, FastAPI, MongoDB Atlas, PDF text extraction, and Gemini.
 
