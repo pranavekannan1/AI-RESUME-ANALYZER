@@ -5,6 +5,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from database.database import init_db, close_db
 
+from app.api.routes.upload import router as upload_router
+from app.api.routes.analyze import router as analyze_router
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -32,7 +35,6 @@ cors_origins = [
     "https://rescan-resume-analyzer.vercel.app",
 ]
 
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=cors_origins,
@@ -43,7 +45,15 @@ app.add_middleware(
 
 
 # --------------------------------------------------
-# Routes
+# API ROUTES
+# --------------------------------------------------
+
+app.include_router(upload_router)
+app.include_router(analyze_router)
+
+
+# --------------------------------------------------
+# ROOT
 # --------------------------------------------------
 
 @app.get("/")
