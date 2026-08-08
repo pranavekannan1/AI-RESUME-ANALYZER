@@ -1,0 +1,18 @@
+# Python / backend runtime
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+# Frontend/runtime
+frontend/.env*
+!frontend/.env.example
+frontend/node_modules/
+frontend/.next/
+out/
+dist/
+.DS_Store
+
+# Logs and local artifacts
+*.log
+npm-debug.log*
+.DS_Store
