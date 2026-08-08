@@ -1,69 +1,96 @@
 import type { AnalysisResult, UploadResult } from "@/types/analysis";
 
-const API_URL = (process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000").replace(/\/$/, "");
+const API_URL = "https://ai-resume-analyzer-zcu2.onrender.com";
 
-async function readError(response: Response, fallback: string) {
+async function readError(
+  response: Response,
+  fallback: string
+): Promise<string> {
   try {
     const data = await response.json();
-    if (typeof data?.detail === "string") return data.detail;
-    if (typeof data?.message === "string") return data.message;
+
+    if (typeof data?.detail === "string") {
+      return data.detail;
+    }
+
+    if (typeof data?.message === "string") {
+      return data.message;
+    }
   } catch {
     // Ignore non-JSON errors.
   }
+
   return fallback;
 }
 
-export async function uploadResume(file: File): Promise<UploadResult> {
+export async function uploadResume(
+  file: File
+): Promise<UploadResult> {
   const formData = new FormData();
+
   formData.append("file", file);
 
   let response: Response;
+
   try {
     response = await fetch(`${API_URL}/upload/`, {
       method: "POST",
       body: formData,
     });
-  } catch {
-    throw new Error(`Cannot reach the backend at ${API_URL}. Make sure FastAPI is running on port 8000.`);
+  } catch (error) {
+    console.error("BACKEND FETCH ERROR:", error);
+
+    throw new Error(
+      `Cannot connect to ${API_URL}. Check the browser console for the actual network/CORS error.`
+    );
   }
 
   if (!response.ok) {
-    throw new Error(await readError(response, "Resume upload failed."));
+    const errorMessage = await readError(
+      response,
+      "Resume upload failed."
+    );
+
+    console.error("BACKEND ERROR:", response.status, errorMessage);
+
+    throw new Error(errorMessage);
   }
 
-  const data: UploadResult = await response.json();
+  const data = await response.json();
 
-  if (!data || typeof data.resume_id !== "string" || !data.resume_id.trim()) {
-    console.error("Invalid upload response:", data);
-    throw new Error("Upload succeeded, but the backend did not return a valid resume ID.");
-  }
+  console.log("UPLOAD RESPONSE:", data);
 
   return data;
 }
 
-export async function analyzeResume(resumeId: string): Promise<AnalysisResult> {
-  if (!resumeId.trim()) {
-    throw new Error("Invalid resume ID.");
-  }
-
+export async function analyzeResume(
+  resumeId: string
+): Promise<AnalysisResult> {
   let response: Response;
+
   try {
-    response = await fetch(`${API_URL}/analyze/${encodeURIComponent(resumeId)}`, {
-      method: "POST",
-    });
-  } catch {
-    throw new Error(`Cannot reach the backend at ${API_URL}. Make sure FastAPI is running on port 8000.`);
+    response = await fetch(
+      `${API_URL}/analyze/${resumeId}`,
+      {
+        method: "POST",
+      }
+    );
+  } catch (error) {
+    console.error("ANALYZE FETCH ERROR:", error);
+
+    throw new Error(
+      `Cannot connect to ${API_URL}. Check the browser console.`
+    );
   }
 
   if (!response.ok) {
-    throw new Error(await readError(response, "Resume analysis failed."));
+    throw new Error(
+      await readError(
+        response,
+        "Resume analysis failed."
+      )
+    );
   }
 
-  const data: AnalysisResult = await response.json();
-
-  if (!data?.resume_id || !data?.analysis) {
-    throw new Error("Backend returned an invalid analysis response.");
-  }
-
-  return data;
+  return response.json();
 }
