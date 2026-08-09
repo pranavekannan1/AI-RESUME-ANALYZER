@@ -12,7 +12,7 @@ export default function Home() {
 
   async function handleAnalyze() {
     if (!file) {
-      setError("Please select a PDF resume first.");
+      setError("Please select a valid resume PDF first.");
       return;
     }
 
@@ -58,8 +58,13 @@ export default function Home() {
       return;
     }
 
-    if (selectedFile.type !== "application/pdf") {
-      setError("Please upload a PDF file.");
+    const filename = selectedFile.name.toLowerCase();
+    const isPdfFile =
+      filename.endsWith(".pdf") ||
+      selectedFile.type === "application/pdf";
+
+    if (!isPdfFile) {
+      setError("Only a resume PDF file is allowed.");
       setFile(null);
       return;
     }
@@ -156,17 +161,17 @@ export default function Home() {
                     </h3>
 
                     <p className="mt-2 text-sm text-slate-400">
-                      Drag and drop your PDF here or click to browse
+                      Drag and drop your resume PDF here or click to browse
                     </p>
 
                     <span className="mt-6 rounded-xl bg-gradient-to-r from-emerald-300 to-blue-500 px-6 py-3 text-sm font-black text-slate-950 shadow-lg shadow-emerald-950/30">
-                      Choose PDF
+                      Choose Resume PDF
                     </span>
 
                     <input
                       id="resume"
                       type="file"
-                      accept=".pdf"
+                      accept="application/pdf,.pdf"
                       className="hidden"
                       onChange={(event) =>
                         handleFileChange(
