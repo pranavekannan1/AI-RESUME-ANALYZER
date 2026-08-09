@@ -83,10 +83,10 @@ export default function Home() {
             </div>
             <div>
               <h1 className="text-2xl font-black leading-none tracking-tight text-white">
-                ReScan
+                ReScan v1.0
               </h1>
               <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
-                Resume Intelligence
+                Powered by Resume Intelligence
               </p>
             </div>
           </div>
@@ -256,14 +256,14 @@ export default function Home() {
         <div className="mx-auto flex min-h-[72px] max-w-6xl flex-col items-center justify-center gap-2 px-6 text-center md:flex-row md:justify-between md:text-left">
           <div className="flex flex-col gap-1">
             <div className="text-base font-black tracking-tight text-white">
-              ReScan
+              ReScan v1.0
             </div>
             <div className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500">
-              Resume Intelligence Platform
+              Powered by Resume Intelligence
             </div>
           </div>
           <div className="text-xs font-semibold text-slate-400">
-            Developed by ReScan
+            Developed by Mahi Devs
           </div>
           <div className="text-xs font-semibold text-slate-500">
             © 2026 ReScan. All rights reserved.

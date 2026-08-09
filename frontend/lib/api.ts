@@ -1,11 +1,11 @@
 import type { AnalysisResult, UploadResult } from "@/types/analysis";
 
-const API_URL = "https://ai-resume-analyzer-zcu2.onrender.com";
+const API_URL = (
+  process.env.NEXT_PUBLIC_API_URL ||
+  "http://127.0.0.1:8000"
+).replace(/\/$/, "");
 
-async function readError(
-  response: Response,
-  fallback: string
-): Promise<string> {
+async function readError(response: Response, fallback: string) {
   try {
     const data = await response.json();
 
@@ -27,7 +27,6 @@ export async function uploadResume(
   file: File
 ): Promise<UploadResult> {
   const formData = new FormData();
-
   formData.append("file", file);
 
   let response: Response;
@@ -37,30 +36,19 @@ export async function uploadResume(
       method: "POST",
       body: formData,
     });
-  } catch (error) {
-    console.error("BACKEND FETCH ERROR:", error);
-
+  } catch {
     throw new Error(
-      `Cannot connect to ${API_URL}. Check the browser console for the actual network/CORS error.`
+      `Cannot reach the backend at ${API_URL}. Make sure FastAPI is running.`
     );
   }
 
   if (!response.ok) {
-    const errorMessage = await readError(
-      response,
-      "Resume upload failed."
+    throw new Error(
+      await readError(response, "Resume upload failed.")
     );
-
-    console.error("BACKEND ERROR:", response.status, errorMessage);
-
-    throw new Error(errorMessage);
   }
 
-  const data = await response.json();
-
-  console.log("UPLOAD RESPONSE:", data);
-
-  return data;
+  return response.json();
 }
 
 export async function analyzeResume(
@@ -69,26 +57,18 @@ export async function analyzeResume(
   let response: Response;
 
   try {
-    response = await fetch(
-      `${API_URL}/analyze/${resumeId}`,
-      {
-        method: "POST",
-      }
-    );
-  } catch (error) {
-    console.error("ANALYZE FETCH ERROR:", error);
-
+    response = await fetch(`${API_URL}/analyze/${resumeId}`, {
+      method: "POST",
+    });
+  } catch {
     throw new Error(
-      `Cannot connect to ${API_URL}. Check the browser console.`
+      `Cannot reach the backend at ${API_URL}.`
     );
   }
 
   if (!response.ok) {
     throw new Error(
-      await readError(
-        response,
-        "Resume analysis failed."
-      )
+      await readError(response, "Resume analysis failed.")
     );
   }
 
