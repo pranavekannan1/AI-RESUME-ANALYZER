@@ -21,7 +21,7 @@ async def upload_resume(
             detail="No filename provided.",
         )
 
-    validate_pdf(file)
+    await validate_pdf(file)
 
     try:
         # Read uploaded PDF
