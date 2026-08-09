@@ -253,7 +253,19 @@ export default function Home() {
             </section>
           </>
         ) : (
-          <Results analysis={analysis} />
+          <Results
+            analysis={analysis}
+            onBack={() => {
+              setAnalysis(null);
+              setFile(null);
+              setError("");
+            }}
+            onAnalyzeAnother={() => {
+              setAnalysis(null);
+              setFile(null);
+              setError("");
+            }}
+          />
         )}
       </div>
 
@@ -305,28 +317,50 @@ function Feature({
 
 function Results({
   analysis,
+  onBack,
+  onAnalyzeAnother,
 }: {
   analysis: Analysis;
+  onBack: () => void;
+  onAnalyzeAnother: () => void;
 }) {
   return (
-    <section>
+    <section className="mx-auto max-w-6xl px-2 sm:px-4">
       {/* RESULTS HEADER */}
-      <div className="mb-10">
-        <p className="text-sm font-medium text-blue-400">
-          ANALYSIS COMPLETE
-        </p>
+      <div className="mb-10 flex flex-col gap-6">
+        <div>
+          <p className="text-sm font-medium text-blue-400">
+            ANALYSIS COMPLETE
+          </p>
 
-        <h2 className="mt-2 text-4xl font-bold">
-          Your Resume Results
-        </h2>
+          <h2 className="mt-2 text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
+            Your Resume Results
+          </h2>
 
-        <p className="mt-3 text-slate-400">
-          Here's what our AI found in your resume.
-        </p>
+          <p className="mt-3 text-sm leading-6 text-slate-400 sm:text-base">
+            Here's what our AI found in your resume.
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <button
+            onClick={onBack}
+            className="inline-flex items-center justify-center rounded-2xl border border-white/15 px-5 py-3 text-sm font-black text-white transition hover:bg-white/10"
+          >
+            ← Back
+          </button>
+
+          <button
+            onClick={onAnalyzeAnother}
+            className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-emerald-300 to-blue-500 px-5 py-3 text-sm font-black text-slate-950 transition hover:scale-[1.02]"
+          >
+            Analyze Another Resume
+          </button>
+        </div>
       </div>
 
       {/* SCORE */}
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
 
         <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
           <p className="text-sm text-slate-400">
@@ -356,7 +390,7 @@ function Results({
       </div>
 
       {/* SUMMARY */}
-      <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.04] p-7">
+      <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.04] p-5 sm:p-7">
         <h3 className="text-xl font-semibold">
           Summary
         </h3>
@@ -367,7 +401,7 @@ function Results({
       </div>
 
       {/* SUGGESTIONS */}
-      <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.04] p-7">
+      <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.04] p-5 sm:p-7">
         <h3 className="text-xl font-semibold">
           Improvement Suggestions
         </h3>
@@ -397,7 +431,7 @@ function Results({
       </div>
 
       {/* SKILLS */}
-      <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.04] p-7">
+      <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.04] p-5 sm:p-7">
         <h3 className="text-xl font-semibold">
           Detected Skills
         </h3>
