@@ -96,18 +96,6 @@ export default function Home() {
             </div>
           </div>
 
-          <nav className="hidden items-center gap-10 md:flex">
-            <a className="text-sm font-bold text-slate-300 transition hover:text-emerald-300" href="#">
-              Dashboard
-            </a>
-            <a className="text-sm font-bold text-slate-300 transition hover:text-emerald-300" href="#">
-              Analysis
-            </a>
-            <a className="text-sm font-bold text-slate-300 transition hover:text-emerald-300" href="#">
-              Insights
-            </a>
-          </nav>
-
           <div className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] text-emerald-300">
             Reslytics AI
           </div>
