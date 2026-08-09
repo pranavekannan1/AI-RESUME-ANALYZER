@@ -6,14 +6,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from core.config import settings
 from database.database import init_db, close_db
 
+from app.api.routes.upload import router as upload_router
+from app.api.routes.analyze import router as analyze_router
+from app.api.routes.health import router as health_router
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-
     init_db()
-
     yield
-
     close_db()
 
 
@@ -24,6 +25,10 @@ app = FastAPI(
 )
 
 
+# --------------------------------------------------
+# CORS
+# --------------------------------------------------
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins_list,
@@ -33,17 +38,23 @@ app.add_middleware(
 )
 
 
+# --------------------------------------------------
+# API ROUTES
+# --------------------------------------------------
+
+app.include_router(upload_router)
+app.include_router(analyze_router)
+app.include_router(health_router)
+
+
+# --------------------------------------------------
+# ROOT
+# --------------------------------------------------
+
 @app.get("/")
 def root():
     return {
         "message": "Welcome to AI Resume Analyzer",
         "docs": "/docs",
         "health": "/health/",
-    }
-
-
-@app.get("/health/")
-def health():
-    return {
-        "status": "healthy"
     }
