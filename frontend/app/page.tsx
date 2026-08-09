@@ -88,7 +88,7 @@ export default function Home() {
             </div>
             <div>
               <h1 className="text-2xl font-black leading-none tracking-tight text-white">
-                ReScan v1.0
+                Reslytics v1.0
               </h1>
               <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
                 Powered by Resume Intelligence
@@ -109,7 +109,7 @@ export default function Home() {
           </nav>
 
           <div className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] text-emerald-300">
-            ReScan AI
+            Reslytics AI
           </div>
         </div>
       </header>
@@ -119,7 +119,7 @@ export default function Home() {
           <>
             <section className="mx-auto max-w-4xl text-center">
               <div className="mb-5 inline-flex rounded-full border border-emerald-400/30 bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-300">
-                ReScan Resume Analysis
+                Reslytics Resume Analysis
               </div>
 
               <h2 className="text-4xl font-black leading-none tracking-tight sm:text-6xl">
@@ -130,7 +130,7 @@ export default function Home() {
               </h2>
 
               <p className="mx-auto mt-7 max-w-3xl text-lg leading-8 text-slate-400">
-                ReScan helps you understand where your resume stands,
+                Reslytics helps you understand where your resume stands,
                 what recruiters are looking for, and how to improve your
                 chances of landing the next role.
               </p>
@@ -273,7 +273,7 @@ export default function Home() {
         <div className="mx-auto flex min-h-[72px] max-w-6xl flex-col items-center justify-center gap-2 px-6 text-center md:flex-row md:justify-between md:text-left">
           <div className="flex flex-col gap-1">
             <div className="text-base font-black tracking-tight text-white">
-              ReScan v1.0
+              Reslytics v1.0
             </div>
             <div className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500">
               Powered by Resume Intelligence
@@ -283,7 +283,7 @@ export default function Home() {
             Developed by Mahi Devs
           </div>
           <div className="text-xs font-semibold text-slate-500">
-            © 2026 ReScan. All rights reserved.
+            © 2026 Reslytics. All rights reserved.
           </div>
         </div>
       </footer>
